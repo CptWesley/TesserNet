@@ -1,4 +1,5 @@
 ﻿using System;
+using TesserNet.Internal;
 
 namespace TesserNet
 {
@@ -15,7 +16,7 @@ namespace TesserNet
         /// <summary>
         /// Gets or sets the data path.
         /// </summary>
-        public string DataPath { get; set; } = Environment.GetEnvironmentVariable("TESSDATA_PREFIX") ?? "./tessdata/";
+        public string DataPath { get; set; } = Environment.GetEnvironmentVariable("TESSDATA_PREFIX") ?? Loader.GetUnpackDirectory();
 
         /// <summary>
         /// Gets or sets the engine mode.

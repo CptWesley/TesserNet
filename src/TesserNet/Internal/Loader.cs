@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -13,24 +14,31 @@ namespace TesserNet.Internal
     internal static class Loader
     {
         /// <summary>
+        /// Gets the temporary directory to which the files were unpacked.
+        /// </summary>
+        /// <returns>The temporary unpack directory.</returns>
+        internal static string GetUnpackDirectory()
+            => Path.Combine(Path.GetTempPath(), "tessernet", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+        /// <summary>
         /// Loads the correct libraries into the runtime.
         /// </summary>
         internal static void Load()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string version = assembly.GetName().Version.ToString();
-            string[] resources = assembly.GetManifestResourceNames();
+            Stream stream = assembly.GetManifestResourceStream("TesserNet.Resources.zip");
+            ZipArchive resources = new ZipArchive(stream);
 
-            IEnumerable<string> files;
+            IEnumerable<ZipArchiveEntry> files;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (Environment.Is64BitOperatingSystem)
                 {
-                    files = resources.Where(x => x.StartsWith("TesserNet.Resources.w64.", StringComparison.InvariantCulture));
+                    files = resources.ForPlatform("w64");
                 }
                 else
                 {
-                    files = resources.Where(x => x.StartsWith("TesserNet.Resources.w86.", StringComparison.InvariantCulture));
+                    files = resources.ForPlatform("w86");
                 }
             }
             else
@@ -38,46 +46,47 @@ namespace TesserNet.Internal
                 throw new PlatformNotSupportedException();
             }
 
-            EnsureCopied(assembly, files);
+            EnsureCopied(files);
+            resources.Dispose();
+            stream.Dispose();
         }
 
-        private static void EnsureCopied(Assembly assembly, IEnumerable<string> files)
+        private static void EnsureCopied(IEnumerable<ZipArchiveEntry> entries)
         {
-            string tempRoot = Path.Combine(Path.GetTempPath(), "tessernet", assembly.GetName().Version.ToString());
+            string tempRoot = GetUnpackDirectory();
             Directory.CreateDirectory(tempRoot);
 
-            foreach (string file in files)
+            foreach (ZipArchiveEntry entry in entries)
             {
-                CopyResource(assembly, tempRoot, file);
+                CopyResource(tempRoot, entry);
             }
         }
 
-        private static void CopyResource(Assembly assembly, string path, string resource)
+        private static void CopyResource(string path, ZipArchiveEntry entry)
         {
-            string fileName = string.Join(".", resource.Split('.').Skip(3));
+            string fileName = Path.GetFileName(entry.FullName);
             string filePath = Path.Combine(path, fileName);
 
             if (!File.Exists(filePath))
             {
-                using (FileStream fs = File.Create(filePath))
-                {
-                    using (Stream s = assembly.GetManifestResourceStream(resource))
-                    {
-                        s.CopyTo(fs);
-                        s.Flush();
-                    }
-                }
+                entry.ExtractToFile(filePath, false);
             }
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            string extension = Path.GetExtension(filePath);
+            if (extension == ".dll" && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 NativeMethods.WindowsLoadLib(filePath);
             }
-            else
+            else if (extension == ".so" || extension == ".dylib")
             {
                 NativeMethods.UnixLoadLib(filePath);
             }
         }
+
+        private static IEnumerable<ZipArchiveEntry> ForPlatform(this ZipArchive resources, string platform)
+            => resources.Entries.Where(x =>
+            (x.FullName.StartsWith($"{platform}/", StringComparison.InvariantCulture) && x.FullName.Length > platform.Length + 1)
+            || (x.FullName.StartsWith("any/", StringComparison.InvariantCulture) && x.FullName.Length > 4));
 
         private class NativeMethods
         {

@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
-    <EmbeddedResource Include="Resources/**" />
+    <EmbeddedResource Include="Resources.zip" />
   </ItemGroup>
 
   <ItemGroup>
