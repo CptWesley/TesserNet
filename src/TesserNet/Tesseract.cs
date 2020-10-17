@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using TesserNet.Internal;
 
 namespace TesserNet
@@ -48,6 +49,17 @@ namespace TesserNet
         /// <returns>The found text as a UTF8 string.</returns>
         public string Read(byte[] data, int width, int height, int bytesPerPixel)
             => Read(data, width, height, bytesPerPixel, -1, -1, -1, -1);
+
+        /// <summary>
+        /// Performs OCR on the given image.
+        /// </summary>
+        /// <param name="data">The bytes of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        /// <param name="bytesPerPixel">The number of bytes per pixel.</param>
+        /// <returns>The found text as a UTF8 string.</returns>
+        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel)
+            => Task.Run(() => Read(data, width, height, bytesPerPixel, -1, -1, -1, -1));
 
         /// <summary>
         /// Performs OCR on a rectangle inside the given image.
@@ -107,6 +119,21 @@ namespace TesserNet
                 }
             }
         }
+
+        /// <summary>
+        /// Performs OCR on a rectangle inside the given image.
+        /// </summary>
+        /// <param name="data">The bytes of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        /// <param name="bytesPerPixel">The number of bytes per pixel.</param>
+        /// <param name="rectX">The X coordinate of the rectangle.</param>
+        /// <param name="rectY">The Y coordinate of the rectangle.</param>
+        /// <param name="rectWidth">The width of the rectangle.</param>
+        /// <param name="rectHeight">The height of the rectangle.</param>
+        /// <returns>The found text as a UTF8 string.</returns>
+        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+            => Task.Run(() => Read(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight));
 
         /// <inheritdoc/>
         public void Dispose()

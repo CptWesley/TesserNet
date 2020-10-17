@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -43,6 +44,25 @@ namespace TesserNet
                 return tesseract.Read(data, bmp.Width, bmp.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
             }
         }
+
+        /// <summary>
+        /// Performs OCR on the given image.
+        /// </summary>
+        /// <param name="tesseract">The tesseract instance.</param>
+        /// <param name="image">The image.</param>
+        /// <returns>The found text as a UTF8 string.</returns>
+        public static Task<string> ReadAsync(this Tesseract tesseract, Image image)
+            => Task.Run(() => tesseract.Read(image));
+
+        /// <summary>
+        /// Performs OCR on a rectangle inside the given image.
+        /// </summary>
+        /// <param name="tesseract">The tesseract instance.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="rectangle">The rectangle to perform OCR in.</param>
+        /// <returns>The found text as a UTF8 string.</returns>
+        public static Task<string> ReadAsync(this Tesseract tesseract, Image image, Rectangle rectangle)
+            => Task.Run(() => tesseract.Read(image, rectangle));
 
         private static byte[] BitmapToBytes(Image<Rgba32> bmp)
         {
