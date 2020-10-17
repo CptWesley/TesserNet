@@ -8,13 +8,20 @@ namespace TesserNet.Internal
     /// </summary>
     internal abstract class TesseractApi
     {
+        private static bool unpacked;
+
         /// <summary>
         /// Creates an instance of the Tesseract API for the current operating system.
         /// </summary>
         /// <returns>A Tesseract API.</returns>
         public static TesseractApi Create()
         {
-            Loader.Load();
+            if (unpacked)
+            {
+                Loader.Load();
+                unpacked = true;
+            }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return new WindowsTesseractApi();
