@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using TesserNet.Internal;
 
 namespace TesserNet
@@ -50,9 +51,33 @@ namespace TesserNet
             lock (lck)
             {
                 Init();
-                api.TessBaseAPISetImage(handle, data, width, height, bytesPerPixel, width * bytesPerPixel);
-                api.TessBaseAPISetSourceResolution(handle, Options.PixelsPerInch);
-                return api.TessBaseAPIGetUTF8Text(handle);
+
+                try
+                {
+                    api.TessBaseAPISetImage(handle, data, width, height, bytesPerPixel, width * bytesPerPixel);
+                }
+                catch
+                {
+                    throw new TesseractException("Error while setting subject image.");
+                }
+
+                try
+                {
+                    api.TessBaseAPISetSourceResolution(handle, Options.PixelsPerInch);
+                }
+                catch
+                {
+                    throw new TesseractException("Error while setting resolution.");
+                }
+
+                try
+                {
+                    return api.TessBaseAPIGetUTF8Text(handle);
+                }
+                catch
+                {
+                    throw new TesseractException("Error while performing OCR.");
+                }
             }
         }
 
@@ -74,7 +99,11 @@ namespace TesserNet
 
         private void Init()
         {
-            api.TessBaseAPIInit1(handle, Options.DataPath, Options.Language, (int)Options.EngineMode, IntPtr.Zero, 0);
+            int result = api.TessBaseAPIInit1(handle, Options.DataPath, Options.Language, (int)Options.EngineMode, IntPtr.Zero, 0);
+            if (result != 0)
+            {
+                throw new TesseractException($"Error while initializing Tesseract with data file '{Path.Combine(Options.DataPath, $"{Options.Language}.traineddata")}'.");
+            }
         }
     }
 }
