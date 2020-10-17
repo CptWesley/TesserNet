@@ -33,11 +33,6 @@ With that instance one can now perform OCR.
 string result = tesseract.Read(...);
 ```
 
-With that instance one can now perform OCR.
-```cs
-string result = tesseract.Read(...);
-```
-
 By default, the following `Read` methods are provided:
 ```cs
 string Read(byte[] data, int width, int height, int bytesPerPixel);
