@@ -73,10 +73,20 @@ namespace TesserNet.Internal
         public abstract string TessBaseAPIGetUTF8Text(IntPtr handle);
 
         /// <summary>
-        /// Tesses the base API set source resolution.
+        /// Sets the source resolution.
         /// </summary>
-        /// <param name="handle">The handle.</param>
-        /// <param name="ppi">The ppi.</param>
+        /// <param name="handle">The API base handle.</param>
+        /// <param name="ppi">The pixels per inch.</param>
         public abstract void TessBaseAPISetSourceResolution(IntPtr handle, int ppi);
+
+        /// <summary>
+        /// Takes a rectangle of the image for performing OCR.
+        /// </summary>
+        /// <param name="handle">The API base handle.</param>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        public abstract void TessBaseAPISetRectangle(IntPtr handle, int x, int y, int width, int height);
     }
 }

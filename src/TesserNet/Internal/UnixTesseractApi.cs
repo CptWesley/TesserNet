@@ -33,6 +33,10 @@ namespace TesserNet.Internal
         public override void TessBaseAPISetSourceResolution(IntPtr handle, int ppi)
             => NativeMethods.TessBaseAPISetSourceResolution(handle, ppi);
 
+        /// <inheritdoc/>
+        public override void TessBaseAPISetRectangle(IntPtr handle, int x, int y, int width, int height)
+            => NativeMethods.TessBaseAPISetRectangle(handle, x, y, width, height);
+
         private static class NativeMethods
         {
             private const string DllPath = "libtesseract500";
@@ -55,6 +59,9 @@ namespace TesserNet.Internal
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern void TessBaseAPISetSourceResolution(IntPtr handle, int ppi);
+
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern void TessBaseAPISetRectangle(IntPtr handle, int x, int y, int width, int height);
         }
     }
 }

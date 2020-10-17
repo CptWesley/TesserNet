@@ -47,6 +47,21 @@ namespace TesserNet
         /// <param name="bytesPerPixel">The number of bytes per pixel.</param>
         /// <returns>The found text as a UTF8 string.</returns>
         public string Read(byte[] data, int width, int height, int bytesPerPixel)
+            => Read(data, width, height, bytesPerPixel, -1, -1, -1, -1);
+
+        /// <summary>
+        /// Performs OCR on a rectangle inside the given image.
+        /// </summary>
+        /// <param name="data">The bytes of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        /// <param name="bytesPerPixel">The number of bytes per pixel.</param>
+        /// <param name="rectX">The X coordinate of the rectangle.</param>
+        /// <param name="rectY">The Y coordinate of the rectangle.</param>
+        /// <param name="rectWidth">The width of the rectangle.</param>
+        /// <param name="rectHeight">The height of the rectangle.</param>
+        /// <returns>The found text as a UTF8 string.</returns>
+        public string Read(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
             lock (lck)
             {
@@ -68,6 +83,18 @@ namespace TesserNet
                 catch
                 {
                     throw new TesseractException("Error while setting resolution.");
+                }
+
+                if (rectX >= 0 && rectY >= 0 && rectWidth > 0 && rectHeight > 0)
+                {
+                    try
+                    {
+                        api.TessBaseAPISetRectangle(handle, rectX, rectY, rectWidth, rectHeight);
+                    }
+                    catch
+                    {
+                        throw new TesseractException("Error while setting a rectangle.");
+                    }
                 }
 
                 try

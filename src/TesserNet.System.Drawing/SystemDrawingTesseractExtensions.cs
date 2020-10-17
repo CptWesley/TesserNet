@@ -17,6 +17,16 @@ namespace TesserNet
         /// <param name="image">The image.</param>
         /// <returns>The found text as a UTF8 string.</returns>
         public static string Read(this Tesseract tesseract, Image image)
+            => tesseract.Read(image, new Rectangle(-1, -1, -1, -1));
+
+        /// <summary>
+        /// Performs OCR on a rectangle inside the given image.
+        /// </summary>
+        /// <param name="tesseract">The tesseract instance.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="rectangle">The rectangle to perform OCR in.</param>
+        /// <returns>The found text as a UTF8 string.</returns>
+        public static string Read(this Tesseract tesseract, Image image, Rectangle rectangle)
         {
             if (tesseract is null)
             {
@@ -27,7 +37,7 @@ namespace TesserNet
             {
                 byte[] data = BitmapToBytes(bmp);
                 int bpp = Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
-                return tesseract.Read(data, bmp.Width, bmp.Height, bpp);
+                return tesseract.Read(data, bmp.Width, bmp.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
             }
         }
 
