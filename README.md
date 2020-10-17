@@ -9,8 +9,8 @@ Additionally, the library provides a simple Tesseract instance pooling system (t
 Currently only Windows x64 and x86 are supported. I plan on adding support for unix systems in the future.
 
 ## Downloads
-[TesserNet](https://www.nuget.org/packages/TesserNet/)
-[TesserNet for System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/)
+[TesserNet](https://www.nuget.org/packages/TesserNet/)  
+[TesserNet for System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/)  
 [TesserNet for ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/)
 
 ## Usage
