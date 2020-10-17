@@ -3,6 +3,9 @@ TesserNet provides high level bindings for Tesseract in .NET.
 The library comes with all required native libraries and a trained English model, meaning you don't need any additional setup to get the library up and running!
 Additionally, the library provides a simple Tesseract instance pooling system (through the `TesseractPool` class) so you can carelessly make asynchronous OCR invocations.
 
+## Limitations
+Currently only Windows x64 and x86 are supported. I plan on adding support for unix systems in the future.
+
 ## Downloads
 [TesserNet](https://www.nuget.org/packages/TesserNet/)
 [TesserNet for System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/)
