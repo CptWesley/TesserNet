@@ -27,5 +27,18 @@ namespace TesserNet
         /// Gets or sets the pixels per inch.
         /// </summary>
         public int PixelsPerInch { get; set; } = 70;
+
+        /// <summary>
+        /// Creates a copy of the options.
+        /// </summary>
+        /// <returns>A copy of the options.</returns>
+        public TesseractOptions Copy()
+            => new TesseractOptions
+            {
+                Language = this.Language,
+                DataPath = this.DataPath,
+                EngineMode = this.EngineMode,
+                PixelsPerInch = this.PixelsPerInch,
+            };
     }
 }

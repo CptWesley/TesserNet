@@ -52,9 +52,9 @@ namespace TesserNet
             => (Options, this.maxPoolSize) = (options, maxPoolSize);
 
         /// <summary>
-        /// Gets the options.
+        /// Gets or sets the options.
         /// </summary>
-        public TesseractOptions Options { get; }
+        public TesseractOptions Options { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum size of the pool.
@@ -98,7 +98,7 @@ namespace TesserNet
             }
             else if (tesseracts.Count < MaxPoolSize)
             {
-                tesseract = new Tesseract(Options);
+                tesseract = new Tesseract();
                 tesseracts.Add(tesseract);
             }
             else
@@ -107,6 +107,7 @@ namespace TesserNet
             }
 
             Interlocked.Increment(ref busyCount);
+            tesseract.Options = Options.Copy();
             semaphore.Release();
             Task<string> ocr = tesseract.ReadAsync(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight);
             _ = GoToWaiting(tesseract, ocr);
