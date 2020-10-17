@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
+using SixLabors.ImageSharp;
 
-namespace TesserNet.Example.System.Drawing
+namespace TesserNet.Example.ImageSharp
 {
     public static class Program
     {
         public static void Main()
         {
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TesserNet.Example.System.Drawing.img.png");
-            Image image = Image.FromStream(stream);
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TesserNet.Example.ImageSharp.img.png");
+            Image image = Image.Load(stream);
             Tesseract tesseract = new Tesseract();
 
             Console.WriteLine(tesseract.Read(image));

@@ -3,12 +3,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace TesserNet.System.Drawing
+namespace TesserNet
 {
     /// <summary>
     /// Provides extension methods for the <see cref="Tesseract"/> class.
     /// </summary>
-    public static class TesseractExtensions
+    public static class SystemDrawingTesseractExtensions
     {
         /// <summary>
         /// Performs OCR on the given image.
@@ -27,7 +27,6 @@ namespace TesserNet.System.Drawing
             {
                 byte[] data = BitmapToBytes(bmp);
                 int bpp = Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
-                int bpl = bmp.Width * bpp;
                 return tesseract.Read(data, bmp.Width, bmp.Height, bpp);
             }
         }

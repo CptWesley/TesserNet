@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.System.Drawing", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.Example.System.Drawing", "TesserNet.Example.System.Drawing\TesserNet.Example.System.Drawing.csproj", "{DA52B301-D81D-4AD1-9BD7-EB567D1FB176}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.ImageSharp", "TesserNet.ImageSharp\TesserNet.ImageSharp.csproj", "{AE1BA00D-D8E1-4726-A969-C54E02D8985C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.Example.ImageSharp", "TesserNet.Example.ImageSharp\TesserNet.Example.ImageSharp.csproj", "{271E16DD-D0EF-43A4-846D-7FC0C84867B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{DA52B301-D81D-4AD1-9BD7-EB567D1FB176}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA52B301-D81D-4AD1-9BD7-EB567D1FB176}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA52B301-D81D-4AD1-9BD7-EB567D1FB176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE1BA00D-D8E1-4726-A969-C54E02D8985C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE1BA00D-D8E1-4726-A969-C54E02D8985C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE1BA00D-D8E1-4726-A969-C54E02D8985C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE1BA00D-D8E1-4726-A969-C54E02D8985C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
