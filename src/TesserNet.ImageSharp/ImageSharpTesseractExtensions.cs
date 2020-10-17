@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -106,15 +107,9 @@ namespace TesserNet
 
             for (int y = 0; y < bmp.Height; y++)
             {
-                for (int x = 0; x < bmp.Width; x++)
-                {
-                    Rgba32 z = bmp[x, y];
-                    bytes[index] = z.A;
-                    bytes[index + 1] = z.B;
-                    bytes[index + 2] = z.G;
-                    bytes[index + 3] = z.R;
-                    index += 4;
-                }
+                byte[] row = MemoryMarshal.AsBytes(bmp.GetPixelRowSpan(y)).ToArray();
+                Array.Copy(row, 0, bytes, index, row.Length);
+                index += row.Length;
             }
 
             return bytes;
