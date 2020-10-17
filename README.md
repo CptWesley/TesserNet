@@ -35,7 +35,7 @@ string result = tesseract.Read(...);
 
 By default, the following `Read` methods are provided:
 ```cs
-string Tesseract.Read(byte[] data, int width, int height, int bytesPerPixel)
+string Read(byte[] data, int width, int height, int bytesPerPixel)
 string Read(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
 Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel)
 Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
