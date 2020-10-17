@@ -1,3 +1,5 @@
+[![NuGet](https://img.shields.io/nuget/v/TesserNet.svg)](https://www.nuget.org/packages/TesserNet/)  
+
 # TesserNet
 TesserNet provides high level bindings for Tesseract in .NET.
 The library comes with all required native libraries and a trained English model, meaning you don't need any additional setup to get the library up and running!
