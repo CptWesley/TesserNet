@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet", "TesserNet\TesserNet.csproj", "{98D03E85-6685-40E1-B2FC-173636F955CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet", "TesserNet\TesserNet.csproj", "{98D03E85-6685-40E1-B2FC-173636F955CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.Tests", "TesserNet.Tests\TesserNet.Tests.csproj", "{2E467823-D21D-4856-B643-6A8712AC3F0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.Tests", "TesserNet.Tests\TesserNet.Tests.csproj", "{2E467823-D21D-4856-B643-6A8712AC3F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.System.Drawing", "TesserNet.System.Drawing\TesserNet.System.Drawing.csproj", "{B70F5950-175A-42BD-A164-EE7FE2977D3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2E467823-D21D-4856-B643-6A8712AC3F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E467823-D21D-4856-B643-6A8712AC3F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E467823-D21D-4856-B643-6A8712AC3F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B70F5950-175A-42BD-A164-EE7FE2977D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B70F5950-175A-42BD-A164-EE7FE2977D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B70F5950-175A-42BD-A164-EE7FE2977D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B70F5950-175A-42BD-A164-EE7FE2977D3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

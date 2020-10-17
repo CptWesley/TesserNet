@@ -38,12 +38,12 @@ namespace TesserNet
         public TesseractOptions Options { get; set; }
 
         /// <summary>
-        /// Reads the specified data.
+        /// Performs OCR on the given image.
         /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="bytesPerPixel">The bytes per pixel.</param>
+        /// <param name="data">The bytes of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        /// <param name="bytesPerPixel">The number of bytes per pixel.</param>
         /// <returns>The found text as a UTF8 string.</returns>
         public string Read(byte[] data, int width, int height, int bytesPerPixel)
         {
