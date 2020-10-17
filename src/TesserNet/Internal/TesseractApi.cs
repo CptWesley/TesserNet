@@ -16,7 +16,7 @@ namespace TesserNet.Internal
         /// <returns>A Tesseract API.</returns>
         public static TesseractApi Create()
         {
-            if (unpacked)
+            if (!unpacked)
             {
                 Loader.Load();
                 unpacked = true;
