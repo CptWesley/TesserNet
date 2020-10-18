@@ -13,6 +13,10 @@ Currently only Windows x64 and x86 are supported. I plan on adding support for u
 [TesserNet for System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/)  
 [TesserNet for ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/)
 
+## License
+This product includes [Leptonica](http://leptonica.com/), which is available under a "BSD 2-clause" license.
+This product includes [Tesseract](https://github.com/tesseract-ocr/tesseract), which is available under a "Apache Version 2.0" license.
+
 ## Usage
 There are a few example project available for you to try out in the `src` directory.
 Note that the `TesserNet.Example.System.Drawing` example uses .NET Framework,
