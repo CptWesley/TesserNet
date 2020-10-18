@@ -11,7 +11,7 @@
     <PackageTags>tesseract ocr bindings optical character recognition tesseract-ocr system drawing</PackageTags>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
-    <Version>0.1</Version>
+    <Version>0.2</Version>
     <Copyright></Copyright>
   </PropertyGroup>
 
