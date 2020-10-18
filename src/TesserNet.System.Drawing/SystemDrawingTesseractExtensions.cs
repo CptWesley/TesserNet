@@ -49,7 +49,7 @@ namespace TesserNet
         /// <param name="image">The image.</param>
         /// <returns>The found text as a UTF8 string.</returns>
         public static Task<string> ReadAsync(this Tesseract tesseract, Image image)
-            => Task.Run(() => tesseract.Read(image));
+            => tesseract.ReadAsync(image, new Rectangle(-1, -1, -1, -1));
 
         /// <summary>
         /// Performs OCR on a rectangle inside the given image.
@@ -59,7 +59,19 @@ namespace TesserNet
         /// <param name="rectangle">The rectangle to perform OCR in.</param>
         /// <returns>The found text as a UTF8 string.</returns>
         public static Task<string> ReadAsync(this Tesseract tesseract, Image image, Rectangle rectangle)
-            => Task.Run(() => tesseract.Read(image, rectangle));
+        {
+            if (tesseract is null)
+            {
+                throw new ArgumentNullException(nameof(tesseract));
+            }
+
+            using (Bitmap bmp = new Bitmap(image))
+            {
+                byte[] data = BitmapToBytes(bmp);
+                int bpp = Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
+                return tesseract.ReadAsync(data, bmp.Width, bmp.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            }
+        }
 
         /// <summary>
         /// Performs OCR on a rectangle inside the given image.

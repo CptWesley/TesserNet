@@ -59,7 +59,7 @@ namespace TesserNet
         /// <param name="bytesPerPixel">The number of bytes per pixel.</param>
         /// <returns>The found text as a UTF8 string.</returns>
         public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel)
-            => Task.Run(() => Read(data, width, height, bytesPerPixel, -1, -1, -1, -1));
+            => ReadAsync(data, width, height, bytesPerPixel, -1, -1, -1, -1);
 
         /// <summary>
         /// Performs OCR on a rectangle inside the given image.
@@ -132,8 +132,8 @@ namespace TesserNet
         /// <param name="rectWidth">The width of the rectangle.</param>
         /// <param name="rectHeight">The height of the rectangle.</param>
         /// <returns>The found text as a UTF8 string.</returns>
-        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
-            => Task.Run(() => Read(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight));
+        public async Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+            => await Task.Run(() => Read(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight)).ConfigureAwait(false);
 
         /// <inheritdoc/>
         public void Dispose()

@@ -90,7 +90,7 @@ namespace TesserNet
         /// <returns>The found text as a UTF8 string.</returns>
         public async Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
-            await semaphore.WaitAsync();
+            await semaphore.WaitAsync().ConfigureAwait(false);
             Tesseract tesseract;
             if (waiting.Count > 0)
             {
@@ -103,7 +103,7 @@ namespace TesserNet
             }
             else
             {
-                tesseract = await waiting.ReceiveAsync();
+                tesseract = await waiting.ReceiveAsync().ConfigureAwait(false);
             }
 
             Interlocked.Increment(ref busyCount);
@@ -111,7 +111,7 @@ namespace TesserNet
             semaphore.Release();
             Task<string> ocr = tesseract.ReadAsync(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight);
             _ = GoToWaiting(tesseract, ocr);
-            return await ocr;
+            return await ocr.ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -143,9 +143,9 @@ namespace TesserNet
 
         private async Task GoToWaiting(Tesseract t, Task<string> task)
         {
-            await task;
+            await task.ConfigureAwait(false);
             Interlocked.Decrement(ref busyCount);
-            await waiting.SendAsync(t);
+            await waiting.SendAsync(t).ConfigureAwait(false);
         }
 
         private void Resize(int size)
@@ -156,11 +156,11 @@ namespace TesserNet
 
         private async Task KillExcess()
         {
-            await semaphore.WaitAsync();
+            await semaphore.WaitAsync().ConfigureAwait(false);
 
             while (busyCount + waiting.Count > maxPoolSize)
             {
-                Tesseract tesseract = await waiting.ReceiveAsync();
+                Tesseract tesseract = await waiting.ReceiveAsync().ConfigureAwait(false);
                 tesseracts.Remove(tesseract);
                 tesseract.Dispose();
             }
