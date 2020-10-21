@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
+using TesserNet.Internal;
 
 namespace TesserNet
 {
@@ -11,7 +11,7 @@ namespace TesserNet
     /// </summary>
     public class TesseractPool : IDisposable
     {
-        private readonly BufferBlock<Tesseract> waiting = new BufferBlock<Tesseract>();
+        private readonly AsyncQueue<Tesseract> waiting = new AsyncQueue<Tesseract>();
         private readonly HashSet<Tesseract> tesseracts = new HashSet<Tesseract>();
         private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
         private int busyCount;
@@ -103,7 +103,7 @@ namespace TesserNet
             {
                 if (waiting.Count > 0)
                 {
-                    tesseract = waiting.Receive();
+                    tesseract = await waiting.DequeueAsync().ConfigureAwait(false);
                 }
                 else if (tesseracts.Count < MaxPoolSize)
                 {
@@ -112,7 +112,7 @@ namespace TesserNet
                 }
                 else
                 {
-                    tesseract = await waiting.ReceiveAsync().ConfigureAwait(false);
+                    tesseract = await waiting.DequeueAsync().ConfigureAwait(false);
                 }
 
                 Interlocked.Increment(ref busyCount);
@@ -157,6 +157,7 @@ namespace TesserNet
                     tesseract.Dispose();
                 }
 
+                waiting.Dispose();
                 semaphore.Dispose();
             }
         }
@@ -165,7 +166,7 @@ namespace TesserNet
         {
             await task.ConfigureAwait(false);
             Interlocked.Decrement(ref busyCount);
-            await waiting.SendAsync(t).ConfigureAwait(false);
+            await waiting.EnqueueAsync(t).ConfigureAwait(false);
         }
 
         private void Resize(int size)
@@ -184,7 +185,7 @@ namespace TesserNet
 
             while (busyCount + waiting.Count > maxPoolSize)
             {
-                Tesseract tesseract = await waiting.ReceiveAsync().ConfigureAwait(false);
+                Tesseract tesseract = await waiting.DequeueAsync().ConfigureAwait(false);
                 tesseracts.Remove(tesseract);
                 tesseract.Dispose();
             }
