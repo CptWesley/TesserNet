@@ -36,6 +36,12 @@ namespace TesserNet
         }
 
         /// <summary>
+        /// Finalizes an instance of the <see cref="Tesseract"/> class.
+        /// </summary>
+        ~Tesseract()
+            => Dispose(false);
+
+        /// <summary>
         /// Gets or sets the options.
         /// </summary>
         public TesseractOptions Options { get; set; }
