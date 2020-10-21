@@ -9,7 +9,7 @@ namespace TesserNet.Internal
     /// Provides implementation for a simple asynchronous queue.
     /// </summary>
     /// <typeparam name="T">Type of elements stored in the queue.</typeparam>
-    internal class AsyncQueue<T> : IDisposable
+    internal class LazyQueue<T> : IDisposable
     {
         private readonly Queue<T> queue = new Queue<T>();
         private readonly SemaphoreSlim mutation = new SemaphoreSlim(1, 1);
@@ -22,16 +22,24 @@ namespace TesserNet.Internal
         public int Count => queue.Count;
 
         /// <summary>
-        /// Enqueues a value.
+        /// Enqueues a value asynchronously.
         /// </summary>
         /// <param name="value">The value to enqueue.</param>
         /// <returns>A task that performs the enqueing.</returns>
         public async Task EnqueueAsync(T value)
         {
             await mutation.WaitAsync().ConfigureAwait(false);
-            queue.Enqueue(value);
-            mutation.Release();
-            availability.Release();
+            EnqueueInternal(value);
+        }
+
+        /// <summary>
+        /// Enqueues a value synchronously.
+        /// </summary>
+        /// <param name="value">The value to enqueue.</param>
+        public void Enqueue(T value)
+        {
+            mutation.Wait();
+            EnqueueInternal(value);
         }
 
         /// <summary>
@@ -42,9 +50,18 @@ namespace TesserNet.Internal
         {
             await availability.WaitAsync().ConfigureAwait(false);
             await mutation.WaitAsync().ConfigureAwait(false);
-            T result = queue.Dequeue();
-            mutation.Release();
-            return result;
+            return DequeueInternal();
+        }
+
+        /// <summary>
+        /// Dequeues a value synchronously.
+        /// </summary>
+        /// <returns>The value to dequeue.</returns>
+        public T Dequeue()
+        {
+            availability.Wait();
+            mutation.Wait();
+            return DequeueInternal();
         }
 
         /// <inheritdoc/>
@@ -72,6 +89,20 @@ namespace TesserNet.Internal
                 availability.Dispose();
                 mutation.Dispose();
             }
+        }
+
+        private void EnqueueInternal(T value)
+        {
+            queue.Enqueue(value);
+            mutation.Release();
+            availability.Release();
+        }
+
+        private T DequeueInternal()
+        {
+            T result = queue.Dequeue();
+            mutation.Release();
+            return result;
         }
     }
 }
