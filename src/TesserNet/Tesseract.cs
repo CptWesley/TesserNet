@@ -162,7 +162,7 @@ namespace TesserNet
             int result = api.TessBaseAPIInit1(handle, Options.DataPath, Options.Language, (int)Options.EngineMode, IntPtr.Zero, 0);
             if (result != 0)
             {
-                throw new TesseractException($"Error while initializing Tesseract with data file '{Path.Combine(Options.DataPath, $"{Options.Language}.traineddata")}'.");
+                throw new TesseractException($"Error while initializing Tesseract with data file '{Path.Combine(Options.DataPath, $"{Options.Language}.traineddata")}'. It's possible the training data was not found or the data does not support the current OCR engine mode.");
             }
         }
     }
