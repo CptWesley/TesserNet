@@ -23,6 +23,8 @@ namespace TesserNet.Internal
                 bytes[i] = Marshal.ReadByte(ptr, i);
             }
 
+            Marshal.FreeHGlobal(ptr);
+
             return Encoding.UTF8.GetString(bytes);
         }
 
