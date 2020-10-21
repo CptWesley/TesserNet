@@ -16,6 +16,7 @@ namespace TesserNet
         private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
         private int busyCount;
         private int maxPoolSize;
+        private bool isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TesseractPool"/> class.
@@ -90,25 +91,38 @@ namespace TesserNet
         /// <returns>The found text as a UTF8 string.</returns>
         public async Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
-            await semaphore.WaitAsync().ConfigureAwait(false);
-            Tesseract tesseract;
-            if (waiting.Count > 0)
+            if (isDisposed)
             {
-                tesseract = waiting.Receive();
-            }
-            else if (tesseracts.Count < MaxPoolSize)
-            {
-                tesseract = new Tesseract();
-                tesseracts.Add(tesseract);
-            }
-            else
-            {
-                tesseract = await waiting.ReceiveAsync().ConfigureAwait(false);
+                throw new ObjectDisposedException(nameof(TesseractPool));
             }
 
-            Interlocked.Increment(ref busyCount);
-            tesseract.Options = Options.Copy();
-            semaphore.Release();
+            await semaphore.WaitAsync().ConfigureAwait(false);
+
+            Tesseract tesseract;
+            try
+            {
+                if (waiting.Count > 0)
+                {
+                    tesseract = waiting.Receive();
+                }
+                else if (tesseracts.Count < MaxPoolSize)
+                {
+                    tesseract = new Tesseract();
+                    tesseracts.Add(tesseract);
+                }
+                else
+                {
+                    tesseract = await waiting.ReceiveAsync().ConfigureAwait(false);
+                }
+
+                Interlocked.Increment(ref busyCount);
+                tesseract.Options = Options.Copy();
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+
             Task<string> ocr = tesseract.ReadAsync(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight);
             _ = GoToWaiting(tesseract, ocr);
             return await ocr.ConfigureAwait(false);
@@ -127,6 +141,13 @@ namespace TesserNet
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (isDisposed)
+            {
+                return;
+            }
+
+            isDisposed = true;
+
             if (disposing)
             {
                 semaphore.Wait();
@@ -136,7 +157,6 @@ namespace TesserNet
                     tesseract.Dispose();
                 }
 
-                semaphore.Release();
                 semaphore.Dispose();
             }
         }
@@ -151,7 +171,11 @@ namespace TesserNet
         private void Resize(int size)
         {
             maxPoolSize = size;
-            _ = KillExcess();
+
+            if (!isDisposed)
+            {
+                _ = KillExcess();
+            }
         }
 
         private async Task KillExcess()

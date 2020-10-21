@@ -14,6 +14,7 @@ namespace TesserNet
         private readonly TesseractApi api;
         private readonly IntPtr handle;
         private readonly object lck = new object();
+        private bool isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tesseract"/> class.
@@ -75,8 +76,18 @@ namespace TesserNet
         /// <returns>The found text as a UTF8 string.</returns>
         public string Read(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
+            if (isDisposed)
+            {
+                throw new ObjectDisposedException(nameof(Tesseract));
+            }
+
             lock (lck)
             {
+                if (isDisposed)
+                {
+                    throw new ObjectDisposedException(nameof(Tesseract));
+                }
+
                 Init();
 
                 try
@@ -148,7 +159,17 @@ namespace TesserNet
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            api.TessBaseAPIDelete(handle);
+            if (isDisposed)
+            {
+                return;
+            }
+
+            lock (lck)
+            {
+                api.TessBaseAPIDelete(handle);
+            }
+
+            isDisposed = true;
         }
 
         private void Init()
