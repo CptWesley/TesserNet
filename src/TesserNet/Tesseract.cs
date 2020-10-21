@@ -15,6 +15,7 @@ namespace TesserNet
         private readonly IntPtr handle;
         private readonly object lck = new object();
         private bool isDisposed;
+        private TesseractOptions lastOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tesseract"/> class.
@@ -67,7 +68,11 @@ namespace TesserNet
                     throw new ObjectDisposedException(nameof(Tesseract));
                 }
 
-                Init();
+                if (!Options.Equals(lastOptions))
+                {
+                    lastOptions = Options.Copy();
+                    Init();
+                }
 
                 try
                 {
@@ -99,14 +104,26 @@ namespace TesserNet
                     }
                 }
 
+                string result;
                 try
                 {
-                    return api.TessBaseAPIGetUTF8Text(handle);
+                    result = api.TessBaseAPIGetUTF8Text(handle);
                 }
                 catch
                 {
                     throw new TesseractException("Error while performing OCR.");
                 }
+
+                try
+                {
+                    api.TessBaseAPIClear(handle);
+                }
+                catch
+                {
+                    throw new TesseractException("Error while clearing result data.");
+                }
+
+                return result;
             }
         }
 

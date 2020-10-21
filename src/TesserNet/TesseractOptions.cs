@@ -6,7 +6,7 @@ namespace TesserNet
     /// <summary>
     /// Represents the options used for invoking Tesseract.
     /// </summary>
-    public class TesseractOptions
+    public class TesseractOptions : IEquatable<TesseractOptions>
     {
         /// <summary>
         /// Gets or sets the language.
@@ -40,5 +40,34 @@ namespace TesserNet
                 EngineMode = this.EngineMode,
                 PixelsPerInch = this.PixelsPerInch,
             };
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is TesseractOptions other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(TesseractOptions other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            return Language == other.Language
+                && DataPath == other.DataPath
+                && EngineMode == other.EngineMode
+                && PixelsPerInch == PixelsPerInch;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+            => Language.GetHashCode() + (2 * DataPath.GetHashCode()) + (3 * (int)(EngineMode + 1)) + (4 * (PixelsPerInch + 1));
     }
 }

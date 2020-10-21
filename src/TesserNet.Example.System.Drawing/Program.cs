@@ -13,11 +13,18 @@ namespace TesserNet.Example.System.Drawing
             Image image = Image.FromStream(stream);
             Tesseract tesseract = new Tesseract();
 
-            Console.WriteLine(tesseract.Read(image).Trim());
+            DateTime s = DateTime.Now;
+
+            for (int i = 0; i < 1000; i++)
+            {
+                Console.WriteLine(tesseract.Read(image).Trim());
+            }
 
             stream.Dispose();
             image.Dispose();
             tesseract.Dispose();
+            Console.WriteLine($"Done in {(DateTime.Now - s).TotalMilliseconds}");
+            Console.ReadLine();
         }
     }
 }

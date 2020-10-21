@@ -37,6 +37,10 @@ namespace TesserNet.Internal
         public override void TessBaseAPISetRectangle(IntPtr handle, int x, int y, int width, int height)
             => NativeMethods.TessBaseAPISetRectangle(handle, x, y, width, height);
 
+        /// <inheritdoc/>
+        public override void TessBaseAPIClear(IntPtr handle)
+            => NativeMethods.TessBaseAPIClear(handle);
+
         private static class NativeMethods
         {
             private const string DllPath = "libtesseract500";
@@ -46,6 +50,9 @@ namespace TesserNet.Internal
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern void TessBaseAPIDelete(IntPtr handle);
+
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern void TessBaseAPIClear(IntPtr handle);
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern int TessBaseAPIInit1(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string dataPath, [MarshalAs(UnmanagedType.LPStr)] string language, int oem, IntPtr configs, int configSize);

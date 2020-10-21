@@ -88,5 +88,11 @@ namespace TesserNet.Internal
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         public abstract void TessBaseAPISetRectangle(IntPtr handle, int x, int y, int width, int height);
+
+        /// <summary>
+        /// Frees all image data and result data.
+        /// </summary>
+        /// <param name="handle">The API base handle.</param>
+        public abstract void TessBaseAPIClear(IntPtr handle);
     }
 }
