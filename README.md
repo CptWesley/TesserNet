@@ -64,12 +64,16 @@ TesseractPool pool = new TesseractPool();
 The `TesseractPool` class provides a pooling mechanism for running the OCR on multiple `Tesseract` instances, without having to manually deal with all the different instances.
 The class has the following methods:
 ```cs
+string Read(byte[] data, int width, int height, int bytesPerPixel);
+string Read(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight);
 Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel);
 Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight);
 ```
 
 And when either of the aforementioned image processing bridging libraries are present:
 ```cs
+string Read(Image image);
+string Read(Image image, Rectangle rectangle);
 Task<string> ReadAsync(Image image);
 Task<string> ReadAsync(Image image, Rectangle rectangle);
 ```
