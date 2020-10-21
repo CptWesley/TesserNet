@@ -14,7 +14,7 @@ Currently only Windows x64 and x86 are supported. I plan on adding support for u
 [TesserNet for ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/)
 
 ## License
-This product includes [Leptonica](http://leptonica.com/), which is available under a "BSD 2-clause" license.
+This product includes [Leptonica](http://leptonica.com/), which is available under a "BSD 2-clause" license.  
 This product includes [Tesseract](https://github.com/tesseract-ocr/tesseract), which is available under a "Apache Version 2.0" license.
 
 ## Usage
