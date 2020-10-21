@@ -13,7 +13,7 @@ namespace TesserNet.Example.System.Drawing
             Image image = Image.FromStream(stream);
             Tesseract tesseract = new Tesseract();
 
-            Console.WriteLine(tesseract.Read(image));
+            Console.WriteLine(tesseract.Read(image).Trim());
 
             stream.Dispose();
             image.Dispose();
