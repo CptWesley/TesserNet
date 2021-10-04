@@ -13,9 +13,9 @@ namespace TesserNet
     {
         private readonly TesseractApi api;
         private readonly IntPtr handle;
-        private readonly object lck = new object();
+        private readonly object lck = new ();
         private bool isDisposed;
-        private TesseractOptions lastOptions;
+        private TesseractOptions? lastOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tesseract"/> class.
@@ -68,7 +68,7 @@ namespace TesserNet
                     throw new ObjectDisposedException(nameof(Tesseract));
                 }
 
-                if (!Options.Equals(lastOptions))
+                if (!Options.Equals(lastOptions!))
                 {
                     lastOptions = Options.Copy();
                     Init();
