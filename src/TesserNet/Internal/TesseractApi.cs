@@ -94,5 +94,12 @@ namespace TesserNet.Internal
         /// </summary>
         /// <param name="handle">The API base handle.</param>
         public abstract void TessBaseAPIClear(IntPtr handle);
+
+        /// <summary>
+        /// Sets the segmentation mode.
+        /// </summary>
+        /// <param name="handle">The API base handle.</param>
+        /// <param name="mode">The mode.</param>
+        public abstract void TessBaseAPISetPageSegMode(IntPtr handle, int mode);
     }
 }

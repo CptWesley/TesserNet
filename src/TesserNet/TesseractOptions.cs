@@ -29,6 +29,11 @@ namespace TesserNet
         public int PixelsPerInch { get; set; } = 70;
 
         /// <summary>
+        /// Gets or sets the page segmentation option.
+        /// </summary>
+        public PageSegmentation PageSegmentation { get; set; } = PageSegmentation.Block;
+
+        /// <summary>
         /// Creates a copy of the options.
         /// </summary>
         /// <returns>A copy of the options.</returns>
@@ -63,11 +68,12 @@ namespace TesserNet
             return Language == other.Language
                 && DataPath == other.DataPath
                 && EngineMode == other.EngineMode
-                && PixelsPerInch == PixelsPerInch;
+                && PixelsPerInch == other.PixelsPerInch
+                && PageSegmentation == other.PageSegmentation;
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => Language.GetHashCode() + (2 * DataPath.GetHashCode()) + (3 * (int)(EngineMode + 1)) + (4 * (PixelsPerInch + 1));
+            => Language.GetHashCode() + (2 * DataPath.GetHashCode()) + (3 * (int)(EngineMode + 1)) + (4 * (PixelsPerInch + 1)) + (5 * (int)(PageSegmentation + 1));
     }
 }

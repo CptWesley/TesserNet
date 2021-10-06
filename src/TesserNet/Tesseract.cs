@@ -92,6 +92,15 @@ namespace TesserNet
                     throw new TesseractException("Error while setting resolution.");
                 }
 
+                try
+                {
+                    api.TessBaseAPISetPageSegMode(handle, (int)Options.PageSegmentation);
+                }
+                catch
+                {
+                    throw new TesseractException("Error while setting page segmentation mode.");
+                }
+
                 if (rectX >= 0 && rectY >= 0 && rectWidth > 0 && rectHeight > 0)
                 {
                     try
