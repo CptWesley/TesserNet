@@ -44,6 +44,16 @@ namespace TesserNet
         public string Blacklist { get; set; } = string.Empty;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the thing we try to parse is numeric.
+        /// </summary>
+        public bool Numeric { get; set; }
+
+        /// <summary>
+        /// Gets or sets the configuration name or path.
+        /// </summary>
+        public string Config { get; set; } = string.Empty;
+
+        /// <summary>
         /// Creates a copy of the options.
         /// </summary>
         /// <returns>A copy of the options.</returns>
@@ -57,6 +67,8 @@ namespace TesserNet
                 PageSegmentation = this.PageSegmentation,
                 Whitelist = this.Whitelist,
                 Blacklist = this.Blacklist,
+                Numeric = this.Numeric,
+                Config = this.Config,
             };
 
         /// <inheritdoc/>
@@ -84,7 +96,9 @@ namespace TesserNet
                 && PixelsPerInch == other.PixelsPerInch
                 && PageSegmentation == other.PageSegmentation
                 && Whitelist == other.Whitelist
-                && Blacklist == other.Blacklist;
+                && Blacklist == other.Blacklist
+                && Numeric == other.Numeric
+                && Config == other.Config;
         }
 
         /// <inheritdoc/>
@@ -95,6 +109,8 @@ namespace TesserNet
             + (4 * (PixelsPerInch + 1))
             + (5 * (int)(PageSegmentation + 1))
             + (6 * Whitelist.GetHashCode())
-            + (7 * Blacklist.GetHashCode());
+            + (7 * Blacklist.GetHashCode())
+            + (Numeric ? 8 : 0)
+            + (9 * Config.GetHashCode());
     }
 }

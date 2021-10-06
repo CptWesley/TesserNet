@@ -110,5 +110,12 @@ namespace TesserNet.Internal
         /// <param name="value">The value.</param>
         /// <returns>Whether the operation was succesful or not.</returns>
         public abstract bool TessBaseAPISetVariable(IntPtr handle, string key, string value);
+
+        /// <summary>
+        /// Sets the used config file.
+        /// </summary>
+        /// <param name="handle">The API base handle.</param>
+        /// <param name="file">The name or path to the file of the config file.</param>
+        public abstract void TessBaseAPIReadConfigFile(IntPtr handle, string file);
     }
 }

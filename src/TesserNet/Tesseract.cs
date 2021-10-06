@@ -92,39 +92,6 @@ namespace TesserNet
                     throw new TesseractException("Error while setting resolution.");
                 }
 
-                try
-                {
-                    api.TessBaseAPISetPageSegMode(handle, (int)Options.PageSegmentation);
-                }
-                catch
-                {
-                    throw new TesseractException("Error while setting page segmentation mode.");
-                }
-
-                try
-                {
-                    if (!api.TessBaseAPISetVariable(handle, "tessedit_char_whitelist", Options.Whitelist))
-                    {
-                        throw new TesseractException("Setting whitelist unsuccesful.");
-                    }
-                }
-                catch
-                {
-                    throw new TesseractException("Error while setting whitelist.");
-                }
-
-                try
-                {
-                    if (!api.TessBaseAPISetVariable(handle, "tessedit_char_blacklist", Options.Blacklist))
-                    {
-                        throw new TesseractException("Setting blacklist unsuccesful.");
-                    }
-                }
-                catch
-                {
-                    throw new TesseractException("Error while setting blacklist.");
-                }
-
                 if (rectX >= 0 && rectY >= 0 && rectWidth > 0 && rectHeight > 0)
                 {
                     try
@@ -196,6 +163,63 @@ namespace TesserNet
             if (result != 0)
             {
                 throw new TesseractException($"Error while initializing Tesseract with data file '{Path.Combine(Options.DataPath, $"{Options.Language}.traineddata")}'. It's possible the training data was not found or the data does not support the current OCR engine mode.");
+            }
+
+            try
+            {
+                api.TessBaseAPISetPageSegMode(handle, (int)Options.PageSegmentation);
+            }
+            catch
+            {
+                throw new TesseractException("Error while setting page segmentation mode.");
+            }
+
+            try
+            {
+                if (!api.TessBaseAPISetVariable(handle, "tessedit_char_whitelist", string.IsNullOrWhiteSpace(Options.Whitelist) ? string.Empty : Options.Whitelist))
+                {
+                    throw new TesseractException("Setting whitelist unsuccesful.");
+                }
+            }
+            catch
+            {
+                throw new TesseractException("Error while setting whitelist.");
+            }
+
+            try
+            {
+                if (!api.TessBaseAPISetVariable(handle, "tessedit_char_blacklist", string.IsNullOrWhiteSpace(Options.Blacklist) ? string.Empty : Options.Blacklist))
+                {
+                    throw new TesseractException("Setting blacklist unsuccesful.");
+                }
+            }
+            catch
+            {
+                throw new TesseractException("Error while setting blacklist.");
+            }
+
+            try
+            {
+                if (!api.TessBaseAPISetVariable(handle, "classify_bln_numeric_mode", Options.Numeric ? "1" : "0"))
+                {
+                    throw new TesseractException("Setting numeric mode unsuccesful.");
+                }
+            }
+            catch
+            {
+                throw new TesseractException("Error while setting numeric mode.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(Options.Config))
+            {
+                try
+                {
+                    api.TessBaseAPIReadConfigFile(handle, Options.Config);
+                }
+                catch
+                {
+                    throw new TesseractException($"Error while loading config: '{Options.Config}'.");
+                }
             }
         }
     }

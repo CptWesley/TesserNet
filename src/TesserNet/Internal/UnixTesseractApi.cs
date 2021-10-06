@@ -49,6 +49,10 @@ namespace TesserNet.Internal
         public override bool TessBaseAPISetVariable(IntPtr handle, string key, string value)
             => NativeMethods.TessBaseAPISetVariable(handle, key, value);
 
+        /// <inheritdoc/>
+        public override void TessBaseAPIReadConfigFile(IntPtr handle, string file)
+            => NativeMethods.TessBaseAPIReadConfigFile(handle, file);
+
         private static class NativeMethods
         {
             private const string DllPath = "libtesseract500";
@@ -82,6 +86,9 @@ namespace TesserNet.Internal
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern bool TessBaseAPISetVariable(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
+
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern void TessBaseAPIReadConfigFile(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string file);
         }
     }
 }
