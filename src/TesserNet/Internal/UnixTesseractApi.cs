@@ -45,6 +45,10 @@ namespace TesserNet.Internal
         public override void TessBaseAPISetPageSegMode(IntPtr handle, int mode)
             => NativeMethods.TessBaseAPISetPageSegMode(handle, mode);
 
+        /// <inheritdoc/>
+        public override bool TessBaseAPISetVariable(IntPtr handle, string key, string value)
+            => NativeMethods.TessBaseAPISetVariable(handle, key, value);
+
         private static class NativeMethods
         {
             private const string DllPath = "libtesseract500";
@@ -75,6 +79,9 @@ namespace TesserNet.Internal
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern void TessBaseAPISetPageSegMode(IntPtr handle, int mode);
+
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern bool TessBaseAPISetVariable(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
         }
     }
 }

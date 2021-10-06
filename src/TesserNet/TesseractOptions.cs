@@ -34,6 +34,16 @@ namespace TesserNet
         public PageSegmentation PageSegmentation { get; set; } = PageSegmentation.Block;
 
         /// <summary>
+        /// Gets or sets the whitelist.
+        /// </summary>
+        public string Whitelist { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the blacklist.
+        /// </summary>
+        public string Blacklist { get; set; } = string.Empty;
+
+        /// <summary>
         /// Creates a copy of the options.
         /// </summary>
         /// <returns>A copy of the options.</returns>
@@ -44,6 +54,9 @@ namespace TesserNet
                 DataPath = this.DataPath,
                 EngineMode = this.EngineMode,
                 PixelsPerInch = this.PixelsPerInch,
+                PageSegmentation = this.PageSegmentation,
+                Whitelist = this.Whitelist,
+                Blacklist = this.Blacklist,
             };
 
         /// <inheritdoc/>
@@ -69,11 +82,19 @@ namespace TesserNet
                 && DataPath == other.DataPath
                 && EngineMode == other.EngineMode
                 && PixelsPerInch == other.PixelsPerInch
-                && PageSegmentation == other.PageSegmentation;
+                && PageSegmentation == other.PageSegmentation
+                && Whitelist == other.Whitelist
+                && Blacklist == other.Blacklist;
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => Language.GetHashCode() + (2 * DataPath.GetHashCode()) + (3 * (int)(EngineMode + 1)) + (4 * (PixelsPerInch + 1)) + (5 * (int)(PageSegmentation + 1));
+            => Language.GetHashCode()
+            + (2 * DataPath.GetHashCode())
+            + (3 * (int)(EngineMode + 1))
+            + (4 * (PixelsPerInch + 1))
+            + (5 * (int)(PageSegmentation + 1))
+            + (6 * Whitelist.GetHashCode())
+            + (7 * Blacklist.GetHashCode());
     }
 }

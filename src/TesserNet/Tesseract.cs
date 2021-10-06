@@ -101,6 +101,30 @@ namespace TesserNet
                     throw new TesseractException("Error while setting page segmentation mode.");
                 }
 
+                try
+                {
+                    if (!api.TessBaseAPISetVariable(handle, "tessedit_char_whitelist", Options.Whitelist))
+                    {
+                        throw new TesseractException("Setting whitelist unsuccesful.");
+                    }
+                }
+                catch
+                {
+                    throw new TesseractException("Error while setting whitelist.");
+                }
+
+                try
+                {
+                    if (!api.TessBaseAPISetVariable(handle, "tessedit_char_blacklist", Options.Blacklist))
+                    {
+                        throw new TesseractException("Setting blacklist unsuccesful.");
+                    }
+                }
+                catch
+                {
+                    throw new TesseractException("Error while setting blacklist.");
+                }
+
                 if (rectX >= 0 && rectY >= 0 && rectWidth > 0 && rectHeight > 0)
                 {
                     try
