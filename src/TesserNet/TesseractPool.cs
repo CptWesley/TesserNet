@@ -11,6 +11,8 @@ namespace TesserNet
     /// </summary>
     public class TesseractPool : ITesseract
     {
+        private const int DefaultMaxPoolSize = 6;
+
         private readonly LazyQueue<Tesseract> waiting = new LazyQueue<Tesseract>();
         private readonly HashSet<Tesseract> tesseracts = new HashSet<Tesseract>();
         private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
@@ -22,7 +24,30 @@ namespace TesserNet
         /// Initializes a new instance of the <see cref="TesseractPool"/> class.
         /// </summary>
         public TesseractPool()
-            : this(6)
+            : this(DefaultMaxPoolSize)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TesseractPool"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <param name="maxPoolSize">Maximum size of the pool.</param>
+        public TesseractPool(Action<TesseractOptions> options, int maxPoolSize)
+            : this(maxPoolSize)
+        {
+            if (options != null)
+            {
+                options(Options);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TesseractPool"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        public TesseractPool(Action<TesseractOptions> options)
+            : this(options, DefaultMaxPoolSize)
         {
         }
 
@@ -40,7 +65,7 @@ namespace TesserNet
         /// </summary>
         /// <param name="options">The Tesseract options used for all spawned instances.</param>
         public TesseractPool(TesseractOptions options)
-            : this(options, 6)
+            : this(options, DefaultMaxPoolSize)
         {
         }
 

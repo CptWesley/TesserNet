@@ -29,6 +29,19 @@ namespace TesserNet
         /// Initializes a new instance of the <see cref="Tesseract"/> class.
         /// </summary>
         /// <param name="options">The options.</param>
+        public Tesseract(Action<TesseractOptions> options)
+            : this()
+        {
+            if (options != null)
+            {
+                options(Options);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tesseract"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
         public Tesseract(TesseractOptions options)
         {
             Options = options;
