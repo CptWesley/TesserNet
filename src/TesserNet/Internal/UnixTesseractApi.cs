@@ -55,7 +55,7 @@ namespace TesserNet.Internal
 
         private static class NativeMethods
         {
-            private const string DllPath = "libtesseract500";
+            private const string DllPath = "libtesseract.so.4";
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern IntPtr TessBaseAPICreate();

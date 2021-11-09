@@ -41,6 +41,10 @@ namespace TesserNet.Internal
                     files = resources.ForPlatform("w86");
                 }
             }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                files = resources.ForPlatform("linux");
+            }
             else
             {
                 throw new PlatformNotSupportedException();
