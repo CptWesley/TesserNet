@@ -24,6 +24,8 @@ This product includes [Leptonica](http://leptonica.com/), which is available und
 This product includes [Tesseract](https://github.com/tesseract-ocr/tesseract), which is available under a "Apache Version 2.0" license.
 
 ## Usage
+**When using on Linux, make sure `tesseract-ocr` has been installed on your system.**
+
 There are a few example project available for you to try out in the `src` directory.
 Note that the `TesserNet.Example.System.Drawing` example uses .NET Framework,
 meaning it will only run on Windows.
