@@ -39,11 +39,8 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(image));
             }
 
-            using (Image<Rgba32> bmp = image.CloneAs<Rgba32>())
-            {
-                byte[] data = BitmapToBytes(bmp);
-                return tesseract.Read(data, bmp.Width, bmp.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            }
+            byte[] data = BitmapToBytes(image);
+            return tesseract.Read(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
         /// <summary>
@@ -74,15 +71,17 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(image));
             }
 
-            using (Image<Rgba32> bmp = image.CloneAs<Rgba32>())
-            {
-                byte[] data = BitmapToBytes(bmp);
-                return tesseract.ReadAsync(data, bmp.Width, bmp.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            }
+            byte[] data = BitmapToBytes(image);
+            return tesseract.ReadAsync(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
-        private static byte[] BitmapToBytes(Image<Rgba32> bmp)
+        private static byte[] BitmapToBytes(Image image)
         {
+            if (image is not Image<Rgba32> bmp)
+            {
+                bmp = image.CloneAs<Rgba32>();
+            }
+
             byte[] bytes = new byte[bmp.Width * bmp.Height * 4];
             int index = 0;
 
