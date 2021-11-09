@@ -9,11 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.Tests", "TesserNe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.System.Drawing", "TesserNet.System.Drawing\TesserNet.System.Drawing.csproj", "{B70F5950-175A-42BD-A164-EE7FE2977D3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.Example.System.Drawing", "TesserNet.Example.System.Drawing\TesserNet.Example.System.Drawing.csproj", "{DA52B301-D81D-4AD1-9BD7-EB567D1FB176}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.Example.System.Drawing", "TesserNet.Example.System.Drawing\TesserNet.Example.System.Drawing.csproj", "{DA52B301-D81D-4AD1-9BD7-EB567D1FB176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.ImageSharp", "TesserNet.ImageSharp\TesserNet.ImageSharp.csproj", "{AE1BA00D-D8E1-4726-A969-C54E02D8985C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.ImageSharp", "TesserNet.ImageSharp\TesserNet.ImageSharp.csproj", "{AE1BA00D-D8E1-4726-A969-C54E02D8985C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.Example.ImageSharp", "TesserNet.Example.ImageSharp\TesserNet.Example.ImageSharp.csproj", "{271E16DD-D0EF-43A4-846D-7FC0C84867B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesserNet.Example.ImageSharp", "TesserNet.Example.ImageSharp\TesserNet.Example.ImageSharp.csproj", "{271E16DD-D0EF-43A4-846D-7FC0C84867B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.SkiaSharp", "TesserNet.SkiaSharp\TesserNet.SkiaSharp.csproj", "{0FC0748B-73DA-4897-B55A-907F5E296BC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesserNet.Example.SkiaSharp", "TesserNet.Example.SkiaSharp\TesserNet.Example.SkiaSharp.csproj", "{DD580635-ACCF-4462-B7C2-197EE5354CE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{271E16DD-D0EF-43A4-846D-7FC0C84867B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FC0748B-73DA-4897-B55A-907F5E296BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FC0748B-73DA-4897-B55A-907F5E296BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FC0748B-73DA-4897-B55A-907F5E296BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FC0748B-73DA-4897-B55A-907F5E296BC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD580635-ACCF-4462-B7C2-197EE5354CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD580635-ACCF-4462-B7C2-197EE5354CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD580635-ACCF-4462-B7C2-197EE5354CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD580635-ACCF-4462-B7C2-197EE5354CE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

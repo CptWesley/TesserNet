@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<CodeAnalysisRuleSet>../Ruleset.ruleset</CodeAnalysisRuleSet>
+		<DocumentationFile>bin/$(AssemblyName).xml</DocumentationFile>
+		<LangVersion>9</LangVersion>
+		<Nullable>enable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+
+		<Authors>Wesley Baartman</Authors>
+		<PackageProjectUrl>https://github.com/CptWesley/TesserNet</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/CptWesley/TesserNet</RepositoryUrl>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<Description>Provides extension methods for TesserNet when using SkiaSharp.</Description>
+		<PackageTags>tesseract ocr bindings optical character recognition tesseract-ocr skia sharp skiasharp</PackageTags>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<Version>0.6.0</Version>
+		<Copyright></Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="2.*" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TesserNet\TesserNet.csproj" />
+	</ItemGroup>
+</Project>
