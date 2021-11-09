@@ -16,7 +16,8 @@ iOS is currently not yet supported.
 ## Downloads
 [TesserNet](https://www.nuget.org/packages/TesserNet/)  
 [TesserNet for System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/)  
-[TesserNet for ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/)
+[TesserNet for ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/)  
+[TesserNet for SkiaSharp](https://www.nuget.org/packages/TesserNet.SkiaSharp/)
 
 ## License
 This product includes [Leptonica](http://leptonica.com/), which is available under a "BSD 2-clause" license.  
@@ -50,9 +51,10 @@ Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel);
 Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight);
 ```
 
-Additionally, if one prefers to use System.Drawing or ImageSharp, it is possible to also add a dependency to
-[TesserNet.System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/) or
-[TesserNet.ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/) respectively.
+Additionally, if one prefers to use System.Drawing, ImageSharp or SkiaSharp, it is possible to also add a dependency to
+[TesserNet.System.Drawing](https://www.nuget.org/packages/TesserNet.System.Drawing/),
+[TesserNet.ImageSharp](https://www.nuget.org/packages/TesserNet.ImageSharp/) or
+[TesserNet.SkiaSharp](https://www.nuget.org/packages/TesserNet.SkiaSharp/) respectively.
 Adding either of these dependencies adds the following `Read` methods:
 ```cs
 string Read(Image image);
