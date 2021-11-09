@@ -7,7 +7,11 @@ The library comes with all required native libraries and a trained English model
 Additionally, the library provides a simple Tesseract instance pooling system (through the `TesseractPool` class) so you can carelessly make asynchronous OCR invocations.
 
 ## Limitations
-Currently only Windows x64 and x86 are supported. I plan on adding support for unix systems in the future.
+Windows is currently the only version that doesn't require installing extra dependencies.
+For Linux distributions it is necessary to install `tesseract-ocr`.
+For distributions that use `apt` as the package manager (e.g. Ubuntu, Debian, Raspbian) this can be done using `sudo apt-get install tesseract-ocr`.
+Linux support is new and experimental. Problems might arise due to `tesseract-ocr` not being available or because the found version is too old.
+iOS is currently not yet supported.
 
 ## Downloads
 [TesserNet](https://www.nuget.org/packages/TesserNet/)  
