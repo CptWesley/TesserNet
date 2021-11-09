@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -34,12 +35,9 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(tesseract));
             }
 
-            using (Bitmap bmp = new Bitmap(image))
-            {
-                byte[] data = BitmapToBytes(bmp);
-                int bpp = Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
-                return tesseract.Read(data, bmp.Width, bmp.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            }
+            byte[] data = BitmapToBytes(image);
+            int bpp = Image.GetPixelFormatSize(image.PixelFormat) / 8;
+            return tesseract.Read(data, image.Width, image.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
         /// <summary>
@@ -65,22 +63,31 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(tesseract));
             }
 
-            using (Bitmap bmp = new Bitmap(image))
-            {
-                byte[] data = BitmapToBytes(bmp);
-                int bpp = Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
-                return tesseract.ReadAsync(data, bmp.Width, bmp.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            }
+            byte[] data = BitmapToBytes(image);
+            int bpp = Image.GetPixelFormatSize(image.PixelFormat) / 8;
+            return tesseract.ReadAsync(data, image.Width, image.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
-        private static byte[] BitmapToBytes(Bitmap bmp)
+        [SuppressMessage("Reliability", "CA2000", Justification = "Bitmap is disposed if new one was created.")]
+        private static byte[] BitmapToBytes(Image image)
         {
+            if (image is not Bitmap bmp)
+            {
+                bmp = new Bitmap(image);
+            }
+
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
             IntPtr ptr = bmpData.Scan0;
             int size = bmp.Width * bmp.Height * Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
             byte[] bytes = new byte[size];
             Marshal.Copy(ptr, bytes, 0, size);
             bmp.UnlockBits(bmpData);
+
+            if (bmp != image)
+            {
+                bmp.Dispose();
+            }
+
             return bytes;
         }
     }

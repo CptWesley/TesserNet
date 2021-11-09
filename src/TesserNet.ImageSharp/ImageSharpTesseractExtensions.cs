@@ -92,6 +92,11 @@ namespace TesserNet
                 index += row.Length;
             }
 
+            if (bmp != image)
+            {
+                bmp.Dispose();
+            }
+
             return bytes;
         }
     }
