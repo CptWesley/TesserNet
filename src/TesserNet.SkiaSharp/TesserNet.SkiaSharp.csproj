@@ -17,6 +17,7 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>0.6.0</Version>
 		<Copyright></Copyright>
+		<PackageReadmeFile>../../README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
