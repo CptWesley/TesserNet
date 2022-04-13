@@ -41,7 +41,8 @@ namespace TesserNet
             }
 
             IntPtr data = BitmapToBytes(bmp);
-            string result = tesseract.Read(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            int bpp = Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
+            string result = tesseract.Read(data, image.Width, image.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 
             if (bmp != image)
             {
