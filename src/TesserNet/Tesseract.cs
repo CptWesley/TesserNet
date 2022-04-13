@@ -8,8 +8,7 @@ namespace TesserNet
     /// <summary>
     /// Provides high level bindings for the Tesseract API.
     /// </summary>
-    /// <seealso cref="IDisposable" />
-    public class Tesseract : ITesseract
+    public class Tesseract : TesseractBase
     {
         private readonly TesseractApi api;
         private readonly IntPtr handle;
@@ -43,8 +42,8 @@ namespace TesserNet
         /// </summary>
         /// <param name="options">The options.</param>
         public Tesseract(TesseractOptions options)
+            : base(options)
         {
-            Options = options;
             api = TesseractApi.Create();
             handle = api.TessBaseAPICreate();
         }
@@ -56,18 +55,7 @@ namespace TesserNet
             => Dispose(false);
 
         /// <inheritdoc/>
-        public TesseractOptions Options { get; set; }
-
-        /// <inheritdoc/>
-        public string Read(byte[] data, int width, int height, int bytesPerPixel)
-            => Read(data, width, height, bytesPerPixel, -1, -1, -1, -1);
-
-        /// <inheritdoc/>
-        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel)
-            => ReadAsync(data, width, height, bytesPerPixel, -1, -1, -1, -1);
-
-        /// <inheritdoc/>
-        public string Read(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+        public override unsafe string Read(IntPtr data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
             if (isDisposed)
             {
@@ -141,21 +129,14 @@ namespace TesserNet
         }
 
         /// <inheritdoc/>
-        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+        public override Task<string> ReadAsync(IntPtr data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
             => Task.Run(() => Read(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight));
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (isDisposed)
             {

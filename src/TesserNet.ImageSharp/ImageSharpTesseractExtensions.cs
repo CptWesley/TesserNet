@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -39,8 +38,20 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(image));
             }
 
-            byte[] data = BitmapToBytes(image);
-            return tesseract.Read(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            if (image is not Image<Rgba32> bmp)
+            {
+                bmp = image.CloneAs<Rgba32>();
+            }
+
+            IntPtr data = BitmapToBytes(bmp);
+            string result = tesseract.Read(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+
+            if (bmp != image)
+            {
+                bmp.Dispose();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -71,33 +82,37 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(image));
             }
 
-            byte[] data = BitmapToBytes(image);
-            return tesseract.ReadAsync(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-        }
-
-        private static byte[] BitmapToBytes(Image image)
-        {
             if (image is not Image<Rgba32> bmp)
             {
                 bmp = image.CloneAs<Rgba32>();
             }
 
-            if (!bmp.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> memory))
+            IntPtr data = BitmapToBytes(bmp);
+
+            Task<string> resultTask = tesseract.ReadAsync(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+
+            return resultTask.ContinueWith(r =>
+            {
+                if (bmp != image)
+                {
+                    bmp.Dispose();
+                }
+
+                return r.Result;
+            });
+        }
+
+        private static unsafe IntPtr BitmapToBytes(Image<Rgba32> image)
+        {
+            if (!image.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> memory))
             {
                 throw new TesseractException($"Could not get image pixels.");
             }
 
-            // TODO: Add `Span<byte>, Memory<byte> overloads in ITesseract` to avoid memory allocation
-            byte[] bytes = MemoryMarshal
-                .AsBytes(memory.Span)
-                .ToArray();
-
-            if (bmp != image)
+            fixed (Rgba32* ptr = memory.Span)
             {
-                bmp.Dispose();
+                return new IntPtr(ptr);
             }
-
-            return bytes;
         }
     }
 }

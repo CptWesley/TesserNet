@@ -63,7 +63,7 @@ namespace TesserNet.Internal
         /// <param name="height">The height.</param>
         /// <param name="bytesPerPixel">The bytes per pixel.</param>
         /// <param name="bytesPerLine">The bytes per line.</param>
-        public abstract void TessBaseAPISetImage(IntPtr handle, byte[] data, int width, int height, int bytesPerPixel, int bytesPerLine);
+        public abstract void TessBaseAPISetImage(IntPtr handle, IntPtr data, int width, int height, int bytesPerPixel, int bytesPerLine);
 
         /// <summary>
         /// Performs the OCR.
