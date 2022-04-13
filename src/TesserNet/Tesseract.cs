@@ -141,8 +141,8 @@ namespace TesserNet
         }
 
         /// <inheritdoc/>
-        public async Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
-            => await Task.Run(() => Read(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight)).ConfigureAwait(false);
+        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+            => Task.Run(() => Read(data, width, height, bytesPerPixel, rectX, rectY, rectWidth, rectHeight));
 
         /// <inheritdoc/>
         public void Dispose()
