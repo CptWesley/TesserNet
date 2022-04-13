@@ -9,7 +9,7 @@ namespace TesserNet
     /// <summary>
     /// Scheduler for easier management of multiple tesseract instances.
     /// </summary>
-    public class TesseractPool : ITesseract
+    public class TesseractPool : TesseractBase
     {
         private const int DefaultMaxPoolSize = 6;
 
@@ -75,10 +75,8 @@ namespace TesserNet
         /// <param name="options">The Tesseract options used for all spawned instances.</param>
         /// <param name="maxPoolSize">Maximum size of the pool.</param>
         public TesseractPool(TesseractOptions options, int maxPoolSize)
+            : base(options)
             => (Options, this.maxPoolSize) = (options, maxPoolSize);
-
-        /// <inheritdoc/>
-        public TesseractOptions Options { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum size of the pool.
@@ -90,11 +88,7 @@ namespace TesserNet
         }
 
         /// <inheritdoc/>
-        public string Read(byte[] data, int width, int height, int bytesPerPixel)
-            => Read(data, width, height, bytesPerPixel, -1, -1, -1, -1);
-
-        /// <inheritdoc/>
-        public string Read(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+        public override string Read(IntPtr data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
             if (isDisposed)
             {
@@ -133,11 +127,7 @@ namespace TesserNet
         }
 
         /// <inheritdoc/>
-        public Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel)
-            => ReadAsync(data, width, height, bytesPerPixel, -1, -1, -1, -1);
-
-        /// <inheritdoc/>
-        public async Task<string> ReadAsync(byte[] data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
+        public override async Task<string> ReadAsync(IntPtr data, int width, int height, int bytesPerPixel, int rectX, int rectY, int rectWidth, int rectHeight)
         {
             if (isDisposed)
             {
@@ -176,18 +166,11 @@ namespace TesserNet
             return await ocr.ConfigureAwait(false);
         }
 
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (isDisposed)
             {

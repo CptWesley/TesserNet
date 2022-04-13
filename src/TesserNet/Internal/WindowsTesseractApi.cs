@@ -26,7 +26,7 @@ namespace TesserNet.Internal
             => NativeMethods.TessBaseAPIInit1(handle, dataPath, language, oem, configs, configSize);
 
         /// <inheritdoc/>
-        public override void TessBaseAPISetImage(IntPtr handle, byte[] data, int width, int height, int bytesPerPixel, int bytesPerLine)
+        public override void TessBaseAPISetImage(IntPtr handle, IntPtr data, int width, int height, int bytesPerPixel, int bytesPerLine)
             => NativeMethods.TessBaseAPISetImage(handle, data, width, height, bytesPerPixel, bytesPerLine);
 
         /// <inheritdoc/>
@@ -70,7 +70,7 @@ namespace TesserNet.Internal
             public static extern int TessBaseAPIInit1(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string dataPath, [MarshalAs(UnmanagedType.LPStr)] string language, int oem, IntPtr configs, int configSize);
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern void TessBaseAPISetImage(IntPtr handle, byte[] data, int width, int height, int bytesPerPixel, int bytesPerLine);
+            public static extern void TessBaseAPISetImage(IntPtr handle, IntPtr data, int width, int height, int bytesPerPixel, int bytesPerLine);
 
             [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
             public static extern IntPtr TessBaseAPIGetUTF8Text(IntPtr handle);

@@ -6,7 +6,8 @@
 		<LangVersion>9</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
 		<Authors>Wesley Baartman</Authors>
 		<PackageProjectUrl>https://github.com/CptWesley/TesserNet</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/CptWesley/TesserNet</RepositoryUrl>
@@ -29,5 +30,6 @@
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="System.Memory" Version="*" />
 	</ItemGroup>
 </Project>
