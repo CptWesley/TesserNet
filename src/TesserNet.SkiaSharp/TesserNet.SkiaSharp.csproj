@@ -6,6 +6,7 @@
 		<LangVersion>9</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<Authors>Wesley Baartman</Authors>
 		<PackageProjectUrl>https://github.com/CptWesley/TesserNet</PackageProjectUrl>

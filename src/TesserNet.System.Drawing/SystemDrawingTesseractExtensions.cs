@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace TesserNet
@@ -28,6 +27,7 @@ namespace TesserNet
         /// <param name="image">The image.</param>
         /// <param name="rectangle">The rectangle to perform OCR in.</param>
         /// <returns>The found text as a UTF8 string.</returns>
+        [SuppressMessage("Reliability", "CA2000", Justification = "Bitmap is disposed if new one was created.")]
         public static string Read(this ITesseract tesseract, Image image, Rectangle rectangle)
         {
             if (tesseract is null)
@@ -35,9 +35,20 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(tesseract));
             }
 
-            byte[] data = BitmapToBytes(image);
-            int bpp = Image.GetPixelFormatSize(image.PixelFormat) / 8;
-            return tesseract.Read(data, image.Width, image.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            if (image is not Bitmap bmp)
+            {
+                bmp = new Bitmap(image);
+            }
+
+            IntPtr data = BitmapToBytes(bmp);
+            string result = tesseract.Read(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+
+            if (bmp != image)
+            {
+                bmp.Dispose();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -56,6 +67,7 @@ namespace TesserNet
         /// <param name="image">The image.</param>
         /// <param name="rectangle">The rectangle to perform OCR in.</param>
         /// <returns>The found text as a UTF8 string.</returns>
+        [SuppressMessage("Reliability", "CA2000", Justification = "Bitmap is disposed if new one was created.")]
         public static Task<string> ReadAsync(this ITesseract tesseract, Image image, Rectangle rectangle)
         {
             if (tesseract is null)
@@ -63,32 +75,32 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(tesseract));
             }
 
-            byte[] data = BitmapToBytes(image);
-            int bpp = Image.GetPixelFormatSize(image.PixelFormat) / 8;
-            return tesseract.ReadAsync(data, image.Width, image.Height, bpp, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-        }
-
-        [SuppressMessage("Reliability", "CA2000", Justification = "Bitmap is disposed if new one was created.")]
-        private static byte[] BitmapToBytes(Image image)
-        {
             if (image is not Bitmap bmp)
             {
                 bmp = new Bitmap(image);
             }
 
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
-            IntPtr ptr = bmpData.Scan0;
-            int size = bmp.Width * bmp.Height * Image.GetPixelFormatSize(bmp.PixelFormat) / 8;
-            byte[] bytes = new byte[size];
-            Marshal.Copy(ptr, bytes, 0, size);
-            bmp.UnlockBits(bmpData);
+            IntPtr data = BitmapToBytes(bmp);
+            int bpp = Image.GetPixelFormatSize(image.PixelFormat) / 8;
+            Task<string> resultTask = tesseract.ReadAsync(data, image.Width, image.Height, 4, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 
-            if (bmp != image)
+            return resultTask.ContinueWith(r =>
             {
-                bmp.Dispose();
-            }
+                if (bmp != image)
+                {
+                    bmp.Dispose();
+                }
 
-            return bytes;
+                return r.Result;
+            });
+        }
+
+        private static IntPtr BitmapToBytes(Bitmap image)
+        {
+            BitmapData bmpData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);
+            IntPtr ptr = bmpData.Scan0;
+            image.UnlockBits(bmpData);
+            return ptr;
         }
     }
 }

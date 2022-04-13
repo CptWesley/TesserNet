@@ -37,7 +37,7 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(image));
             }
 
-            byte[] data = BitmapToBytes(image);
+            IntPtr data = BitmapToBytes(image);
             return tesseract.Read(data, image.Width, image.Height, 4, (int)rectangle.Left, (int)rectangle.Top, (int)rectangle.Width, (int)rectangle.Height);
         }
 
@@ -69,7 +69,7 @@ namespace TesserNet
                 throw new ArgumentNullException(nameof(image));
             }
 
-            byte[] data = BitmapToBytes(image);
+            IntPtr data = BitmapToBytes(image);
             return tesseract.ReadAsync(data, image.Width, image.Height, 4, (int)rectangle.Left, (int)rectangle.Top, (int)rectangle.Width, (int)rectangle.Height);
         }
 
@@ -111,7 +111,12 @@ namespace TesserNet
         public static Task<string> ReadAsync(this ITesseract tesseract, SKImage image, SKRect rectangle)
             => tesseract.ReadAsync(SKBitmap.FromImage(image), rectangle);
 
-        private static byte[] BitmapToBytes(SKBitmap bmp)
-            => bmp.GetPixelSpan().ToArray();
+        private static unsafe IntPtr BitmapToBytes(SKBitmap bmp)
+        {
+            fixed (byte* ptr = bmp.GetPixelSpan())
+            {
+                return new IntPtr(ptr);
+            }
+        }
     }
 }
