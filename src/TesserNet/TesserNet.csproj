@@ -18,12 +18,13 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>0.7.0</Version>
 		<Copyright></Copyright>
-		<PackageReadmeFile>../../README.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
 		<EmbeddedResource Include="Resources.zip" />
+		<None Include="../../README.md" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 	<ItemGroup>

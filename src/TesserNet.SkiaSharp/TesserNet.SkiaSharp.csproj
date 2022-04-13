@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<CodeAnalysisRuleSet>../Ruleset.ruleset</CodeAnalysisRuleSet>
@@ -18,11 +18,12 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>0.7.0</Version>
 		<Copyright></Copyright>
-		<PackageReadmeFile>../../README.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
+		<None Include="../../README.md" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 	<ItemGroup>

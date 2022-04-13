@@ -6,7 +6,7 @@
 		<LangVersion>9</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		
+
 		<Authors>Wesley Baartman</Authors>
 		<PackageProjectUrl>https://github.com/CptWesley/TesserNet</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/CptWesley/TesserNet</RepositoryUrl>
@@ -17,11 +17,12 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>0.7.0</Version>
 		<Copyright></Copyright>
-		<PackageReadmeFile>../../README.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
+		<None Include="../../README.md" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 	<ItemGroup>
