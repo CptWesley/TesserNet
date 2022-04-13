@@ -82,15 +82,15 @@ namespace TesserNet
                 bmp = image.CloneAs<Rgba32>();
             }
 
-            byte[] bytes = new byte[bmp.Width * bmp.Height * 4];
-            int index = 0;
-
-            for (int y = 0; y < bmp.Height; y++)
+            if (!bmp.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> memory))
             {
-                byte[] row = MemoryMarshal.AsBytes(bmp.GetPixelRowSpan(y)).ToArray();
-                Array.Copy(row, 0, bytes, index, row.Length);
-                index += row.Length;
+                throw new TesseractException($"Could not get image pixels.");
             }
+
+            // TODO: Add `Span<byte>, Memory<byte> overloads in ITesseract` to avoid memory allocation
+            byte[] bytes = MemoryMarshal
+                .AsBytes(memory.Span)
+                .ToArray();
 
             if (bmp != image)
             {
