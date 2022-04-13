@@ -29,5 +29,6 @@
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="System.Memory" Version="*" />
 	</ItemGroup>
 </Project>
