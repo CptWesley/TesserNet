@@ -18,7 +18,12 @@ namespace TesserNet.Internal
         /// </summary>
         /// <returns>The temporary unpack directory.</returns>
         internal static string GetUnpackDirectory()
-            => Path.Combine(Path.GetTempPath(), "tessernet", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+        {
+            string temp = Path.GetTempPath();
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string platform = GetPlatformString();
+            return Path.Combine(temp, "tessernet", version, platform);
+        }
 
         /// <summary>
         /// Loads the correct libraries into the runtime.
@@ -29,30 +34,34 @@ namespace TesserNet.Internal
             Stream stream = assembly.GetManifestResourceStream("TesserNet.Resources.zip");
             ZipArchive resources = new ZipArchive(stream);
 
-            IEnumerable<ZipArchiveEntry> files;
+            string platform = GetPlatformString();
+            IEnumerable<ZipArchiveEntry> files = resources.ForPlatform(platform);
+            EnsureCopied(files);
+            resources.Dispose();
+            stream.Dispose();
+        }
+
+        private static string GetPlatformString()
+        {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (Environment.Is64BitOperatingSystem)
+                if (Environment.Is64BitProcess)
                 {
-                    files = resources.ForPlatform("w64");
+                    return "w64";
                 }
                 else
                 {
-                    files = resources.ForPlatform("w86");
+                    return "w86";
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                files = resources.ForPlatform("linux");
+                return "linux";
             }
             else
             {
                 throw new PlatformNotSupportedException();
             }
-
-            EnsureCopied(files);
-            resources.Dispose();
-            stream.Dispose();
         }
 
         private static void EnsureCopied(IEnumerable<ZipArchiveEntry> entries)

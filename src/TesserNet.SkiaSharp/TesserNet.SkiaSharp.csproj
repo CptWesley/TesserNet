@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<CodeAnalysisRuleSet>../Ruleset.ruleset</CodeAnalysisRuleSet>
@@ -16,9 +16,10 @@
 		<PackageTags>tesseract ocr bindings optical character recognition tesseract-ocr skia sharp skiasharp</PackageTags>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>0.7.0</Version>
+		<Version>0.8.0</Version>
 		<Copyright></Copyright>
 		<PackageReadmeFile>../../README.md</PackageReadmeFile>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
