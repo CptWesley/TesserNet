@@ -72,7 +72,7 @@ namespace TesserNet
             };
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is TesseractOptions other)
             {
@@ -83,7 +83,7 @@ namespace TesserNet
         }
 
         /// <inheritdoc/>
-        public bool Equals(TesseractOptions other)
+        public bool Equals(TesseractOptions? other)
         {
             if (other is null)
             {

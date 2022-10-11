@@ -21,7 +21,7 @@
         Segmentation = 2,
 
         /// <summary>
-        /// Fully automatic page segmentation, but no OSD. (Default)
+        /// Fully automatic page segmentation, but no OSD. (Default).
         /// </summary>
         SegmentationOcr = 3,
 

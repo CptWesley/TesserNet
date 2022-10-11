@@ -3,7 +3,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<CodeAnalysisRuleSet>../Ruleset.ruleset</CodeAnalysisRuleSet>
 		<DocumentationFile>bin/$(AssemblyName).xml</DocumentationFile>
-		<LangVersion>9</LangVersion>
+		<LangVersion>10</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -16,20 +16,28 @@
 		<PackageTags>tesseract ocr bindings optical character recognition tesseract-ocr</PackageTags>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>0.7.0</Version>
+		<Version>0.8.0</Version>
 		<Copyright></Copyright>
-		<PackageReadmeFile>../../README.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="../../README.md" Pack="true" PackagePath="" />
 		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
 		<EmbeddedResource Include="Resources.zip" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="System.Memory" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BackwardsCompatibleFeatures" Version="2.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>compile</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 </Project>
