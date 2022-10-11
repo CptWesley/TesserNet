@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace TesserNet.Internal
 {
@@ -20,7 +21,7 @@ namespace TesserNet.Internal
         internal static string GetUnpackDirectory()
         {
             string temp = Path.GetTempPath();
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string version = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
             string platform = GetPlatformString();
             return Path.Combine(temp, "tessernet", version, platform);
         }
@@ -31,7 +32,7 @@ namespace TesserNet.Internal
         internal static void Load()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream("TesserNet.Resources.zip");
+            Stream stream = assembly.GetManifestResourceStream("TesserNet.Resources.zip")!;
             ZipArchive resources = new ZipArchive(stream);
 
             string platform = GetPlatformString();
@@ -60,7 +61,7 @@ namespace TesserNet.Internal
             }
             else
             {
-                throw new PlatformNotSupportedException();
+                return "mac";
             }
         }
 
@@ -103,9 +104,12 @@ namespace TesserNet.Internal
 
         private class NativeMethods
         {
+            [SupportedOSPlatform(PlatformNames.Windows)]
             [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = false, SetLastError = true, EntryPoint = "LoadLibrary")]
             public static extern IntPtr WindowsLoadLib([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
 
+            [SupportedOSPlatform(PlatformNames.Linux)]
+            [SupportedOSPlatform(PlatformNames.MacOS)]
             [DllImport("libdl", CharSet = CharSet.Ansi, ExactSpelling = false, SetLastError = true, EntryPoint = "dlopen")]
             public static extern IntPtr UnixLoadLib([MarshalAs(UnmanagedType.LPStr)] string filename, int flags = 2);
         }

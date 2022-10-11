@@ -17,11 +17,12 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>0.8.0</Version>
 		<Copyright></Copyright>
-		<PackageReadmeFile>../../README.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="../../README.md" Pack="true" PackagePath=""/>
 		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
 

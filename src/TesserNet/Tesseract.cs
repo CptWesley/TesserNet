@@ -12,7 +12,7 @@ namespace TesserNet
     {
         private readonly TesseractApi api;
         private readonly IntPtr handle;
-        private readonly object lck = new ();
+        private readonly object lck = new object();
         private bool isDisposed;
         private TesseractOptions? lastOptions;
 
