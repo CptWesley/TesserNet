@@ -57,37 +57,37 @@ namespace TesserNet.Internal
         {
             private const string DllPath = "libtesseract500";
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr TessBaseAPICreate();
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPIDelete(IntPtr handle);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPIClear(IntPtr handle);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern int TessBaseAPIInit1(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string dataPath, [MarshalAs(UnmanagedType.LPStr)] string language, int oem, IntPtr configs, int configSize);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPISetImage(IntPtr handle, IntPtr data, int width, int height, int bytesPerPixel, int bytesPerLine);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr TessBaseAPIGetUTF8Text(IntPtr handle);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPISetSourceResolution(IntPtr handle, int ppi);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPISetRectangle(IntPtr handle, int x, int y, int width, int height);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPISetPageSegMode(IntPtr handle, int mode);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern bool TessBaseAPISetVariable(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
 
-            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport(DllPath, CharSet = CharSet.Auto, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
             public static extern void TessBaseAPIReadConfigFile(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string file);
         }
     }
